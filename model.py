@@ -1,14 +1,13 @@
 import pandas as pd
+from clean_table import clean_csv
 
 
-
-class NaiveBayes:
-    def __init__(self, csv_file,target_column=None):
-        self.csv_file = csv_file
-        self.table = pd.read_csv(csv_file).dropna()
+class Model:
+    def __init__(self, table,target_column=None):
+        self.table=table
         self.target_column = target_column or self.table.columns[-1]
         self.model = {}
-        self.features= [col for col in self.table if col != self.target_column and col != "id"]
+        self.features= [col for col in self.table if col != self.target_column]
 
     def find_unique_target(self):
         for unique_target in self.table[self.target_column].unique():
@@ -47,23 +46,23 @@ class NaiveBayes:
     #                 # self.model[uniq_target][col][uniq_val]={}
 
 
-    def clean_table(self):
-        pass
-
 
     def manage_zero(self):
         pass
 
 
 
+ct=clean_csv("C:/Users/itai/Downloads/buy_computer_data.csv")
+
+ct.drop_Null()
+ct.drop_id()
+ct.drop_duplicate_columns()
+
+m=Model(ct.table)
+m.find_unique_target()
+m.feel_keys()
+m.statistical_values()
+print(m.model)
 
 
 
-
-
-
-nb=NaiveBayes("C:/Users/itai/Downloads/buy_computer_data.csv")
-nb.find_unique_target()
-nb.feel_keys()
-nb.statistical_values()
-print(nb.model)

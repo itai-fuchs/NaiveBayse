@@ -1,7 +1,6 @@
 import pandas as pd
 
-
-class clean_csv:
+class Clean_csv:
 
     def __init__(self, csv_file):
         self.table = pd.read_csv(csv_file)
@@ -18,4 +17,7 @@ class clean_csv:
         duplicated = self.table.T.duplicated()
         self.table = self.table.loc[:, ~duplicated]
 
-
+    def execute(self):
+        self.drop_id()
+        self.drop_Null()
+        self.drop_duplicate_columns()

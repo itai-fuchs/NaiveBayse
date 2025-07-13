@@ -1,3 +1,6 @@
+from Clean_And_Split_Table import CleanerAndSplit
+from bayesian_model import BayesianModel
+
 
 
 class BayesianClassifier:
@@ -14,12 +17,12 @@ class BayesianClassifier:
         :return:
         """
         result={}
-        for key,val in user_input.items():
+        for col,val in user_input.items():
             for uniq_target in model:
                 if uniq_target not in result :
-                    result[uniq_target] =(0.00001  + model[uniq_target][key][val]) *ratio_target_variable[uniq_target]
+                    result[uniq_target] =(0.00001  + model[uniq_target][col][val]) *ratio_target_variable[uniq_target]
                 else:
-                    result[uniq_target]*=model[uniq_target][key][val] +0.00001
+                    result[uniq_target]*=model[uniq_target][col][val] +0.00001
         for key,val in result.items():
 
             result[key]=round(val,3)
@@ -36,6 +39,7 @@ class BayesianClassifier:
         """
         predict = BayesianClassifier.calc_prediction(user_input, model, target_variable)
         return max(predict, key=predict.get)
+
 
 
 

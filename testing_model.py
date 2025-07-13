@@ -1,5 +1,5 @@
 from classifier import BayesianClassifier
-from clean_table import Cleaner
+from Clean_And_Split_Table import CleanerAndSplit
 from bayesian_model import BayesianModel
 
 class TestingModel:
@@ -10,16 +10,18 @@ class TestingModel:
         self.table=table
         self.target_column=self.table.iloc[:,-1]
         self.row_dict={}
-        self.model=BayesianModel( self.table)
+        self.model=BayesianModel(self.table)
+        self.rows_dict()
+
 
     def rows_dict(self):
         """
         Creates a dictionary of the rows in the table
         :return:
         """
-        for index, row in self.table.iterrows():
-            row_without_target = row.drop(labels=self.table.columns[-1])
-            self.row_dict[index] = row_without_target.to_dict()
+        self.table = self.table.iloc[:, :-1]
+        for i in range(len(self.table)):
+            self.row_dict[i] = self.table.iloc[i].to_dict()
 
     def test(self):
         """
@@ -27,34 +29,24 @@ class TestingModel:
         :return:
         """
         correct = 0
+        incorrect=0
         total = self.table.shape[0]
 
         for i in range(total):
+
             row = self.row_dict[i]
 
-            predicted = BayesianClassifier.prediction(row, self.model, self.target_column)
+            predicted = BayesianClassifier.prediction(row, self.model.model,self.model.ratio_target_variable)
 
-            if predicted == self.target_column.iloc[i]:
-                correct += 1
-
+            if predicted == self.target_column[i]:
+             correct+=1
         incorrect = total - correct
 
+
         return {
-            "correct_ratio": correct / total,
-            "incorrect_ratio": incorrect / total,
             "correct_count": correct,
             "incorrect_count": incorrect,
-            "total": total
+            "total": total,
+            "succses":f"{int(correct*100/total)}%"
         }
-
-
-
-
-ct = Cleaner("C:/Users/itai/Downloads/buy_computer_data.csv")
-ct.execute()
-
-tm=TestingModel(ct.table)
-tm.rows_dict()
-print(tm.row_dict)
-
 

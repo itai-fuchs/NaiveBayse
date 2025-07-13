@@ -1,4 +1,7 @@
 
+from Clean_And_Split_Table import CleanerAndSplit
+
+
 
 class BayesianModel:
 
@@ -9,11 +12,9 @@ Receives a table and creates a Bayesian model on the information
         self.table=table
         self.target_column = target_column or self.table.columns[-1]
         self.model = {}
-
         self.columns= [col for col in self.table if col != self.target_column]
-
         self.ratio_target_variable=self.table[self.target_column].value_counts(normalize=True).to_dict()
-
+        self.execute()
     def create_dict(self):
         """
         create model dict shape fills with zeros
@@ -25,7 +26,7 @@ Receives a table and creates a Bayesian model on the information
                 self.model[unique_target][col] = {}
                 for uniq_value in self.table[col].unique():
                     self.model[unique_target][col][uniq_value]=0
-        print(self.model)
+
 
     def  fill_statistical_values(self):
         """
@@ -46,12 +47,14 @@ Receives a table and creates a Bayesian model on the information
         """
         self.create_dict()
         self.fill_statistical_values()
-        self.ratio_target_variable()
 
 
 
 
 
 
+# ct = CleanerAndSplit("C:/Users/itai/Downloads/buy_computer_data.csv")
+# ct.execute()
+# a=BayesianModel(ct.table)
 
 

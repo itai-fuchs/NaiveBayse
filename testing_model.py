@@ -1,52 +1,55 @@
 from classifier import BayesianClassifier
-from Clean_And_Split_Table import CleanerAndSplit
 from bayesian_model import BayesianModel
-
+from Clean_Table import Cleaner
 class TestingModel:
     """
-    Performs tests on the model
+    Performs tests on the Bayesian model
     """
-    def __init__(self,table):
-        self.table=table
-        self.target_column=self.table.iloc[:,-1]
-        self.row_dict={}
-        self.model=BayesianModel(self.table)
-        self.rows_dict()
 
+    def __init__(self, table):
+        self.table = table
+        self.model_table = None
+        self.test_table = None
+        self.split_table()
+        self.model = BayesianModel(self.model_table)
+        self.row_dict = {}
+        self.build_row_dict()
 
-    def rows_dict(self):
+    def split_table(self, ratio=0.7, random_state=None):
         """
-        Creates a dictionary of the rows in the table
-        :return:
+        Split the original table into train (model_table) and test (test_table) sets
         """
-        self.table = self.table.iloc[:, :-1]
-        for i in range(len(self.table)):
-            self.row_dict[i] = self.table.iloc[i].to_dict()
+        self.model_table = self.table.sample(frac=ratio, random_state=random_state).reset_index(drop=True)
+        self.test_table = self.table.drop(self.model_table.index).reset_index(drop=True)
+
+    def build_row_dict(self):
+        """
+        Create a dictionary from the test_table rows without the target column
+        """
+        for i in range(len(self.test_table)):
+            # Extract features only (all columns except the last one)
+            self.row_dict[i] = self.test_table.iloc[i, :-1].to_dict()
 
     def test(self):
         """
-        Performs a test on the accuracy of the model
-        :return:
+        Test the model on the test_table and return accuracy results
         """
         correct = 0
-        incorrect=0
-        total = self.table.shape[0]
+        total = len(self.test_table)
+        target_vals = self.test_table.iloc[:, -1]  # target column from test_table
 
         for i in range(total):
-
             row = self.row_dict[i]
+            predicted = BayesianClassifier.prediction(row, self.model.model, self.model.ratio_target_variable)
+            if predicted == target_vals[i]:
+                correct += 1
 
-            predicted = BayesianClassifier.prediction(row, self.model.model,self.model.ratio_target_variable)
-
-            if predicted == self.target_column[i]:
-             correct+=1
         incorrect = total - correct
-
 
         return {
             "correct_count": correct,
             "incorrect_count": incorrect,
             "total": total,
-            "succses":f"{int(correct*100/total)}%"
+            "success": f"{int(correct * 100 / total)}%"
         }
 

@@ -1,8 +1,8 @@
 import os
-from Clean_And_Split_Table import CleanerAndSplit as Cl
-from bayesian_model import BayesianModel as bM
-from testing_model import TestingModel as testM
-from classifier import BayesianClassifier as Classifier
+from Clean_Table import Cleaner
+from bayesian_model import BayesianModel
+from testing_model import TestingModel
+from classifier import BayesianClassifier
 
 
 class UI:
@@ -14,7 +14,7 @@ class UI:
         """
         Initialize internal variables.
         """
-        self.tables = None
+        self.table = None
         self.model = None
         self.testModel = None
 
@@ -24,14 +24,16 @@ class UI:
         """
         print("---- Naive Bayesian Classifier ----")
         while True:
-            path = input("Enter path to CSV file: ").strip()
+            path = input("Enter path to CSV file: ").strip('\'"')
             if not os.path.exists(path):
                 print("File not found. Please try again.\n")
                 continue
             try:
-                self.tables = Cl(path)
-                self.tables.execute()
-                self.model = bM(self.tables.model_table)
+                self.table = Cleaner(path).table
+
+                self.testModel=TestingModel(self.table)
+
+                self.model = BayesianModel(self.testModel.model_table)
                 print("File loaded and model built successfully.\n")
                 break
             except Exception as e:
@@ -45,6 +47,8 @@ class UI:
         Display main menu for choosing actions: test model, make prediction, or exit.
         """
         while True:
+
+
             print("\nChoose an action:")
             print("1. Check model success rate")
             print("2. Enter values for prediction")
@@ -56,7 +60,9 @@ class UI:
                 case "1":
                     # Test the model using the test table
                     try:
-                        self.testModel = testM(self.tables.test_table)
+
+
+                        self.testModel = TestingModel(self.testModel.model_table)
                         print(self.testModel.test())
                     except Exception as e:
                         print(f"Error while testing the model: {e}")
@@ -104,7 +110,7 @@ class UI:
                 return
 
         try:
-            prediction = Classifier.prediction(
+            prediction = BayesianClassifier.prediction(
                 user_input,
                 self.model.model,
                 self.model.ratio_target_variable
@@ -119,6 +125,6 @@ class UI:
 a=UI()
 a.start()
 
-# C:/Users/itai/Downloads/buy_computer_data.csv
+
 
 

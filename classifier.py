@@ -1,45 +1,27 @@
-from Clean_And_Split_Table import CleanerAndSplit
-from bayesian_model import BayesianModel
-
-
-
 class BayesianClassifier:
     """
     Prediction based on a Bayesian model
     """
-    @staticmethod
-    def calc_prediction(user_input,model,ratio_target_variable):
-        """
-        Calculating the prediction
-        :param user_input:
-        :param model:
-        :param ratio_target_variable:
-        :return:
-        """
-        result={}
-        for col,val in user_input.items():
-            for uniq_target in model:
-                if uniq_target not in result :
-                    result[uniq_target] =(0.00001  + model[uniq_target][col][val]) *ratio_target_variable[uniq_target]
-                else:
-                    result[uniq_target]*=model[uniq_target][col][val] +0.00001
-        for key,val in result.items():
 
-            result[key]=round(val,3)
+    @staticmethod
+    def calc_prediction(data, model, ratio_target_variable):
+        result = {}
+
+        for target_class in model:
+            # התחל עם ההסתברות המקדימה של המחלקה
+            prob = ratio_target_variable.get(target_class, 0)
+
+            for col, val in data.items():
+                # קבל את ההסתברות המותנית, ואם הערך לא קיים במודל, נשתמש בסכום קטן (smoothing)
+                val_prob = model[target_class][col].get(val, 0.01)
+                prob *= val_prob
+
+            result[target_class] = prob
+
         return result
 
     @staticmethod
-    def prediction(user_input, model, target_variable):
-        """
-        Prediction result
-        :param user_input:
-        :param model:
-        :param target_variable:
-        :return:
-        """
-        predict = BayesianClassifier.calc_prediction(user_input, model, target_variable)
+    def prediction(data, model, ratio_target_variable):
+        predict = BayesianClassifier.calc_prediction(data, model, ratio_target_variable)
+        # בחר את המחלקה עם ההסתברות המקסימלית
         return max(predict, key=predict.get)
-
-
-
-

@@ -11,7 +11,7 @@ class Cleaner:
         self.table = pd.read_csv(csv_file)
         self.table = self.table.dropna()
         self.drop_index()
-        # Remove duplicate rows and reset index (drop old index to avoid extra column)
+        # Remove duplicate rows and reset index.
         self.table = self.table.drop_duplicates().reset_index(drop=True)
 
 

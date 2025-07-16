@@ -1,3 +1,6 @@
+
+
+
 class BayesianModel:
     """
     Receives a table (pandas DataFrame) and creates a Naive Bayesian model from the data.
@@ -15,28 +18,28 @@ class BayesianModel:
         """
         Initializes the structure of the model dictionary with zeros.
         """
-        for target_class in self.table[self.target_column].unique():
-            self.model[target_class] = {}
+        for target_val in self.table[self.target_column].unique():
+            self.model[target_val] = {}
             for col in self.columns:
-                self.model[target_class][col] = {}
+                self.model[target_val][col] = {}
                 for val in self.table[col].unique():
-                    self.model[target_class][col][val] = 0
+                    self.model[target_val][col][val] = 0
 
     def fill_statistical_values(self):
         """
         Fills the model dictionary with conditional probabilities using Laplace smoothing.
         """
-        for target_class in self.model:
-            filtered_table = self.table[self.table[self.target_column] == target_class]
+        for target_val in self.model:
+            filtered_table = self.table[self.table[self.target_column] == target_val]
             for col in self.columns:
-                value_counts = filtered_table[col].value_counts()
-                total_count = len(filtered_table)
-                unique_vals = self.table[col].nunique()
+                col_value_counts = filtered_table[col].value_counts()
+                total_rows =filtered_table.shape[0]
+                col_unique_vals = self.table[col].nunique()
 
                 for val in self.table[col].unique():
-                    count = value_counts.get(val, 0)
-                    smoothed_prob = (count + 1) / (total_count + unique_vals)
-                    self.model[target_class][col][val] = round(smoothed_prob, 4)
+                    count = col_value_counts.get(val, 0)
+                    smoothed_prob = (count + 1) / (total_rows + col_unique_vals)
+                    self.model[target_val][col][val] = round(smoothed_prob, 4)
 
     def execute(self):
         """

@@ -1,0 +1,19 @@
+2025-07-22 12:24:28,208 [INFO] Loading data from C:/Users/itai/PycharmProjects/Navie_Bayse/DATA/FlavorSense.csv
+2025-07-22 12:24:28,209 [INFO] Initializing Loader with file: C:/Users/itai/PycharmProjects/Navie_Bayse/DATA/FlavorSense.csv
+2025-07-22 12:24:28,209 [INFO] Detected file extension: .csv
+2025-07-22 12:24:28,209 [INFO] Loading file: C:/Users/itai/PycharmProjects/Navie_Bayse/DATA/FlavorSense.csv
+2025-07-22 12:24:28,218 [INFO] File loaded successfully with shape (10000, 6)
+2025-07-22 12:24:28,233 [INFO] File converted and saved as CSV: C:/Users/itai/PycharmProjects/Navie_Bayse/DATA/FlavorSense.csv
+2025-07-22 12:24:28,234 [INFO] Initializing Cleaner with table of shape (10000, 6)
+2025-07-22 12:24:28,236 [INFO] Table shape after dropna: (6855, 6)
+2025-07-22 12:24:28,237 [INFO] No index-like columns to drop
+2025-07-22 12:24:28,240 [INFO] Table shape after dropping duplicates and resetting index: (3964, 6)
+2025-07-22 12:24:28,240 [INFO] Data loaded and cleaned: 3964 rows, 6 columns
+2025-07-22 12:24:28,240 [INFO] Training Naive Bayes model
+2025-07-22 12:24:28,240 [INFO] Initializing NaiveBayesTrainer
+2025-07-22 12:24:28,240 [INFO] Target column: preferred_taste
+2025-07-22 12:24:28,240 [INFO] Classes found: ['Sweet', 'Sour', 'Salty', 'Spicy']
+2025-07-22 12:24:28,240 [INFO] Executing Naive Bayes model training
+2025-07-22 12:24:28,255 [INFO] Model training completed
+2025-07-22 12:24:28,255 [INFO] Model training complete
+2025-07-22 12:24:28,256 [INFO] Starting server uvicorn on 127.0.0.1:8000

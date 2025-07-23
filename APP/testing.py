@@ -19,6 +19,7 @@ class Testing:
         self.model = NaiveBayesTrainer(self.model_table)
         self.row_dict = {}
         self.build_test_set_dict()
+        self.result=self.test()["success_rate"]>85
 
     def split_table(self, ratio=0.7, random_state=None):
         """
@@ -59,5 +60,7 @@ class Testing:
             "correct_count": correct,
             "incorrect_count": incorrect,
             "total": total,
-            "success": f"{int(correct * 100 / total)}%"
+            "success": f"{int(correct * 100 / total)}%",
+            "success_rate": int(correct * 100 / total)
         }
+

@@ -50,6 +50,10 @@ logging.info("Training Naive Bayes model")
 # Train the Naive Bayes model on the cleaned data
 model = NaiveBayesTrainer(table)
 logging.info("Model training complete")
+test = Testing(table).result
+if not test:
+    logging.warning("Model accuracy is too low. Server will not start.")
+    exit(1)
 
 # Create FastAPI app instance
 app = FastAPI()

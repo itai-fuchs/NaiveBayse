@@ -1,0 +1,51 @@
+2025-07-23 12:21:26,407 [INFO] Root endpoint called
+2025-07-23 12:21:48,290 [INFO] Root endpoint called
+2025-07-23 12:21:54,400 [INFO] Initializing Loader with file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:21:54,400 [INFO] Detected file extension: .csv
+2025-07-23 12:21:54,400 [INFO] Loading file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:21:54,442 [INFO] File loaded successfully with shape (10000, 6)
+2025-07-23 12:21:54,462 [INFO] File converted and saved as CSV: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:21:54,462 [INFO] Loading data from C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:21:54,462 [INFO] Initializing Cleaner with table of shape (10000, 6)
+2025-07-23 12:21:54,462 [INFO] Table shape after dropna: (6855, 6)
+2025-07-23 12:21:54,479 [INFO] No index-like columns to drop
+2025-07-23 12:21:54,495 [INFO] Table shape after dropping duplicates and resetting index: (3964, 6)
+2025-07-23 12:21:54,495 [INFO] Data loaded and cleaned: 3964 rows, 6 columns
+2025-07-23 12:25:17,891 [INFO] Root endpoint called
+2025-07-23 12:25:27,237 [INFO] Loading data from C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:25:27,237 [INFO] Initializing Loader with file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:25:27,237 [INFO] Detected file extension: .csv
+2025-07-23 12:25:27,237 [INFO] Loading file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:25:27,245 [INFO] File loaded successfully with shape (10000, 6)
+2025-07-23 12:25:27,277 [INFO] File converted and saved as CSV: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:25:27,277 [INFO] Initializing Cleaner with table of shape (10000, 6)
+2025-07-23 12:25:27,277 [INFO] Table shape after dropna: (6855, 6)
+2025-07-23 12:25:27,286 [INFO] No index-like columns to drop
+2025-07-23 12:25:27,293 [INFO] Table shape after dropping duplicates and resetting index: (3964, 6)
+2025-07-23 12:25:27,293 [INFO] Data loaded and cleaned: 3964 rows, 6 columns
+2025-07-23 12:25:27,293 [INFO] Training Naive Bayes model
+2025-07-23 12:25:27,293 [INFO] Initializing NaiveBayesTrainer
+2025-07-23 12:25:27,297 [INFO] Target column: preferred_taste
+2025-07-23 12:25:27,297 [INFO] Classes found: ['Sweet', 'Sour', 'Salty', 'Spicy']
+2025-07-23 12:25:27,297 [INFO] Executing Naive Bayes model training
+2025-07-23 12:25:27,339 [INFO] Model training completed
+2025-07-23 12:25:27,339 [INFO] Model training complete
+2025-07-23 12:28:33,085 [INFO] Root endpoint called
+2025-07-23 12:28:40,793 [INFO] Initializing Loader with file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:28:40,793 [INFO] Detected file extension: .csv
+2025-07-23 12:28:40,793 [INFO] Loading file: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:28:40,808 [INFO] File loaded successfully with shape (10000, 6)
+2025-07-23 12:28:40,824 [INFO] File converted and saved as CSV: C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:28:40,830 [INFO] Loading data from C:\Users\itai\PycharmProjects\Navie_Bayse\Server\DATA\FlavorSense.csv
+2025-07-23 12:28:40,830 [INFO] Initializing Cleaner with table of shape (10000, 6)
+2025-07-23 12:28:40,830 [INFO] Table shape after dropna: (6855, 6)
+2025-07-23 12:28:40,830 [INFO] No index-like columns to drop
+2025-07-23 12:28:40,839 [INFO] Table shape after dropping duplicates and resetting index: (3964, 6)
+2025-07-23 12:28:40,839 [INFO] Data loaded and cleaned: 3964 rows, 6 columns
+2025-07-23 12:28:40,839 [INFO] Initializing NaiveBayesTrainer
+2025-07-23 12:28:40,844 [INFO] Target column: preferred_taste
+2025-07-23 12:28:40,844 [INFO] Classes found: ['Sweet', 'Sour', 'Salty', 'Spicy']
+2025-07-23 12:28:40,844 [INFO] Executing Naive Bayes model training
+2025-07-23 12:28:40,882 [INFO] Model training completed
+2025-07-23 12:28:40,882 [INFO] Model training complete
+2025-07-23 12:38:39,631 [INFO] Root endpoint called

@@ -3,7 +3,6 @@ import logging
 from APP.loader import Loader
 from APP.cleaner import Cleaner
 from APP.naiveBayesTrainer import NaiveBayesTrainer
-from APP.classifier import BayesianClassifier
 from fastapi import FastAPI
 # import uvicorn
 
@@ -32,21 +31,7 @@ DATA_DIR = os.path.join(BASE_DIR, "DATA")
 path = os.path.join(DATA_DIR, "FlavorSense.csv")
 
 # Log the path from which data will be loaded
-logging.info(f"Loading data from {path}")
 
-# Load data using Loader class
-load = Loader(path)
-
-# Clean the loaded data using Cleaner class
-table = Cleaner(load.table).table
-logging.info(f"Data loaded and cleaned: {table.shape[0]} rows, {table.shape[1]} columns")
-
-# Log the start of model training
-logging.info("Training Naive Bayes model")
-
-# Train the Naive Bayes model on the cleaned data
-model = NaiveBayesTrainer(table)
-logging.info("Model training complete")
 
 # Create FastAPI app instance
 app = FastAPI()
@@ -55,18 +40,28 @@ app = FastAPI()
 @app.get("/")
 async def root():
     logging.info("Root endpoint called")
-    return {"wellcom to the baysian model"}
+    return {"message": "Welcome to the Bayesian model"}
 
 # Define prediction endpoint that receives input string and returns prediction result
-@app.get("/{predict}")
-async def predict_input(predict: str):
-    logging.info(f"Prediction request received: {predict}")
-    predict = predict.split(".")
-    s_dic = {}
-    for i in range(0, len(predict), 2):
-        s_dic[predict[i]] = predict[i + 1]
-    # Call the classifier to make a prediction based on input dictionary
-    answer = BayesianClassifier.prediction(s_dic, model.model, model.ratio_target_variable)
-    logging.info(f"Prediction answer: {answer}")
-    return {"answer": answer}
+@app.get("/training")
+async def training():
 
+    try:
+        # Load data using Loader class
+        load = Loader(path)
+        logging.info(f"Loading data from {path}")
+
+        # Clean the loaded data using Cleaner class
+        table = Cleaner(load.table).table
+        logging.info(f"Data loaded and cleaned: {table.shape[0]} rows, {table.shape[1]} columns")
+
+        # Train the Naive Bayes model on the cleaned data
+        model = NaiveBayesTrainer(table)
+        logging.info("Model training complete")
+        return model.model
+    except Exception as e:
+        logging.error(f"Training failed: {e}")
+        return {"status": "error", "message": str(e)}
+
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="127.0.0.1",port=8000)

@@ -1,6 +1,6 @@
 import logging
-from classifier import BayesianClassifier
-from naiveBayesTrainer import NaiveBayesTrainer
+from APP.classifier import BayesianClassifier
+from APP.naiveBayesTrainer import NaiveBayesTrainer
 
 
 class Testing:

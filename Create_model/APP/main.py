@@ -3,8 +3,10 @@ import logging
 from APP.loader import Loader
 from APP.cleaner import Cleaner
 from APP.naiveBayesTrainer import NaiveBayesTrainer
+from APP.testing import Testing
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI
-# import uvicorn
+
 
 # Define the base directory (parent folder of APP)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -58,10 +60,17 @@ async def training():
         # Train the Naive Bayes model on the cleaned data
         model = NaiveBayesTrainer(table)
         logging.info("Model training complete")
-        return model.model
+        test = Testing(table).result
+        if not test:
+            logging.warning("Model accuracy is too low. Training endpoint will return error.")
+            return JSONResponse(status_code=400, content={"status": "error", "message": "Model accuracy too low"})
+
+        return {
+            "status": "success",
+            "model": model.model,
+            "ratio_target_variable": model.ratio_target_variable
+        }
+
     except Exception as e:
         logging.error(f"Training failed: {e}")
         return {"status": "error", "message": str(e)}
-
-# if __name__ == "__main__":
-#     uvicorn.run(app, host="127.0.0.1",port=8000)

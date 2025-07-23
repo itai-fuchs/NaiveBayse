@@ -4,6 +4,7 @@ from APP.loader import Loader
 from APP.cleaner import Cleaner
 from APP.naiveBayesTrainer import NaiveBayesTrainer
 from APP.classifier import BayesianClassifier
+from APP.testing import Testing
 from fastapi import FastAPI
 # import uvicorn
 
@@ -21,11 +22,13 @@ LOG_FILE = os.path.join(LOG_DIR, "app.log")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",   # <-- הוספתי פורמט תאריך ושעה ברור
     handlers=[
         logging.FileHandler(LOG_FILE),
         logging.StreamHandler()
     ]
 )
+
 
 # Define the data directory path and file path for the CSV
 DATA_DIR = os.path.join(BASE_DIR, "DATA")

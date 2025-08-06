@@ -1,23 +1,26 @@
+import logging
 
-
-
-class BayesianModel:
+class NaiveBayesTrainer:
     """
     Receives a table (pandas DataFrame) and creates a Naive Bayesian model from the data.
     """
 
     def __init__(self, table, target_column=None):
+        logging.info("Initializing NaiveBayesTrainer")
         self.table = table
         self.target_column = target_column or self.table.columns[-1]
         self.model = {}
         self.columns = [col for col in self.table if col != self.target_column]
         self.ratio_target_variable = self.table[self.target_column].value_counts(normalize=True).to_dict()
+        logging.info(f"Target column: {self.target_column}")
+        logging.info(f"Classes found: {list(self.ratio_target_variable.keys())}")
         self.execute()
 
     def create_dict(self):
         """
         Initializes the structure of the model dictionary with zeros.
         """
+        logging.debug("Creating model dictionary structure")
         for target_val in self.table[self.target_column].unique():
             self.model[target_val] = {}
             for col in self.columns:
@@ -29,13 +32,13 @@ class BayesianModel:
         """
         Fills the model dictionary with conditional probabilities using Laplace smoothing.
         """
+        logging.debug("Filling model dictionary with conditional probabilities")
         for target_val in self.model:
             filtered_table = self.table[self.table[self.target_column] == target_val]
             for col in self.columns:
                 col_value_counts = filtered_table[col].value_counts()
-                total_rows =filtered_table.shape[0]
+                total_rows = filtered_table.shape[0]
                 col_unique_vals = self.table[col].nunique()
-
                 for val in self.table[col].unique():
                     count = col_value_counts.get(val, 0)
                     smoothed_prob = (count + 1) / (total_rows + col_unique_vals)
@@ -45,5 +48,7 @@ class BayesianModel:
         """
         Executes all steps to build the model.
         """
+        logging.info("Executing Naive Bayes model training")
         self.create_dict()
         self.fill_statistical_values()
+        logging.info("Model training completed")
